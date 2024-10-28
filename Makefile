@@ -1,3 +1,3 @@
 .PHONY: run
 run:
-	flask --app app run --debug
+	flask --app app run --debug --reload
