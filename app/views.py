@@ -2,6 +2,8 @@ from random import randrange
 
 from flask import redirect, render_template, url_for, flash, abort
 
+from app.services import random_opinion
+
 from . import app, db
 from .forms import OpinionForm
 from .models import Opinion
@@ -9,14 +11,14 @@ from .models import Opinion
 
 @app.route('/')
 def index_view():
-    quantity = Opinion.query.count()
+    opinion = random_opinion()
 
-    if not quantity:
-        abort(404)
+    if opinion is not None:
+            return render_template('opinion.html', opinion=opinion)
 
-    offset_value = randrange(quantity)
-    opinion = Opinion.query.offset(offset_value).first()
-    return render_template('opinion.html', opinion=opinion)
+    abort(404)
+
+
 
 
 @app.route('/add', methods=['GET', 'POST'])

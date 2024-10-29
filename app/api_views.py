@@ -1,4 +1,8 @@
+from random import randrange
+
 from flask import jsonify, request
+
+from app.services import random_opinion
 
 from .import app, db
 from .models import Opinion
@@ -50,3 +54,9 @@ def delete_opinion(id):
     db.session.commit()
 
     return '', 204
+
+
+@app.route('/api/get-random-opinion/', methods=['GET'])
+def get_random_opinion():
+    opinion = random_opinion()
+    return jsonify({'opinion': opinion.to_dict()}), 200
